@@ -17,5 +17,7 @@ public partial class Transaccion
 
     public decimal IdCliente { get; set; }
 
+    public virtual ICollection<Auditoria> Auditoria { get; set; } = new List<Auditoria>();
+
     public virtual Cliente IdClienteNavigation { get; set; } = null!;
 }

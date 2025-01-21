@@ -12,4 +12,6 @@ public partial class Reporte
     public string Contenido { get; set; } = null!;
 
     public decimal IdUsuario { get; set; }
+
+    public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
 }

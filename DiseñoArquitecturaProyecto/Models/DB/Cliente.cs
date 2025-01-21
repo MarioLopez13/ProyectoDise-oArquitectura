@@ -13,6 +13,8 @@ public partial class Cliente
 
     public decimal Cedula { get; set; }
 
+    public string Contrasea { get; set; } = null!;
+
     public string Correo { get; set; } = null!;
 
     public decimal TotalCuenta { get; set; }

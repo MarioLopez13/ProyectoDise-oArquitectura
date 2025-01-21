@@ -14,4 +14,6 @@ public partial class Auditoria
     public string Ubicacion { get; set; } = null!;
 
     public decimal IdTransaccion { get; set; }
+
+    public virtual Transaccion IdTransaccionNavigation { get; set; } = null!;
 }

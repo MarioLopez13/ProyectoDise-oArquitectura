@@ -30,11 +30,7 @@ public partial class ProyectContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=CASAALEX; Database=Proyect; Trusted_Connection=True;");
-    /*  Notas Rengifo
-        aqui deben cambiar al su server de sql Server=CASAALEX
-        aqui deben cambiar al nombre de su base de datos Database=Proyect
-        Comando por consola Scaffold-DbContext "Server=CASAALEX; Database=Proyect; Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models/DB
-    */
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Auditoria>(entity =>
@@ -53,11 +49,16 @@ public partial class ProyectContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("Fecha_Auditoria");
             entity.Property(e => e.IdTransaccion)
-                .HasColumnType("numeric(18, 0)")
+                .HasColumnType("numeric(10, 0)")
                 .HasColumnName("Id_Transaccion");
             entity.Property(e => e.Ubicacion)
                 .HasMaxLength(1)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.IdTransaccionNavigation).WithMany(p => p.Auditoria)
+                .HasForeignKey(d => d.IdTransaccion)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Transaccion_Auditorias_fk");
         });
 
         modelBuilder.Entity<Cliente>(entity =>
@@ -74,6 +75,9 @@ public partial class ProyectContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Cedula).HasColumnType("numeric(10, 0)");
+            entity.Property(e => e.Contrasea)
+                .HasMaxLength(25)
+                .IsUnicode(false);
             entity.Property(e => e.Correo)
                 .HasMaxLength(25)
                 .IsUnicode(false);
@@ -85,7 +89,7 @@ public partial class ProyectContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.TotalCuenta)
-                .HasColumnType("money")
+                .HasColumnType("decimal(10, 2)")
                 .HasColumnName("Total_Cuenta");
         });
 
@@ -103,8 +107,13 @@ public partial class ProyectContext : DbContext
                 .HasMaxLength(250)
                 .IsUnicode(false);
             entity.Property(e => e.IdUsuario)
-                .HasColumnType("numeric(18, 0)")
+                .HasColumnType("numeric(10, 0)")
                 .HasColumnName("Id_Usuario");
+
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Logs)
+                .HasForeignKey(d => d.IdUsuario)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Usuario_Logs_fk");
         });
 
         modelBuilder.Entity<Reporte>(entity =>
@@ -122,8 +131,13 @@ public partial class ProyectContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("Fecha_Reporte");
             entity.Property(e => e.IdUsuario)
-                .HasColumnType("numeric(18, 0)")
+                .HasColumnType("numeric(10, 0)")
                 .HasColumnName("Id_Usuario");
+
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Reportes)
+                .HasForeignKey(d => d.IdUsuario)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Usuario_Reportes_fk");
         });
 
         modelBuilder.Entity<Transaccion>(entity =>
@@ -170,6 +184,9 @@ public partial class ProyectContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Cedula).HasColumnType("numeric(10, 0)");
+            entity.Property(e => e.Contrasea)
+                .HasMaxLength(25)
+                .IsUnicode(false);
             entity.Property(e => e.Correo)
                 .HasMaxLength(25)
                 .IsUnicode(false);

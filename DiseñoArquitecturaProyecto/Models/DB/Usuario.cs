@@ -17,7 +17,13 @@ public partial class Usuario
 
     public string Direccion { get; set; } = null!;
 
+    public string Contrasea { get; set; } = null!;
+
     public string Rol { get; set; } = null!;
 
     public string Estado { get; set; } = null!;
+
+    public virtual ICollection<Log> Logs { get; set; } = new List<Log>();
+
+    public virtual ICollection<Reporte> Reportes { get; set; } = new List<Reporte>();
 }
