@@ -1,7 +1,19 @@
+using DiseñoArquitecturaProyecto.Models.DB;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+// Registro de servicios (antes de `Build`)
+builder.Services.AddDbContext<ProyectContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Otros servicios (si aplica)
+builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 
