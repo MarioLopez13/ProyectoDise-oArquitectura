@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Validar Transacción";
+}
+
+<h2 class="text-center">Validar Transacción</h2>
+<div class="container mt-4">
+    <div class="card shadow p-4">
+        <form method="post" class="text-center">
+            <div class="form-group">
+                <label for="idTransaccion">ID de la Transacción:</label>
+                <input type="number" name="id" id="idTransaccion" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Validar</button>
+        </form>
+    </div>
+    <div class="mt-3 text-center">
+        @Html.Raw(ViewBag.Resultado)
+    </div>
+</div>
